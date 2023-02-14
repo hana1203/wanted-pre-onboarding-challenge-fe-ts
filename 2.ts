@@ -1,35 +1,27 @@
 //Interface로 설계 & 모델링
-export interface Component {
-  id: string;
-  contents: string;
+export interface Todo {
+  readonly id: string;
+  contents?: string; //create시 내용없이 추가가능해서 optional로
   isCompleted: boolean;
   category: string;
   tags?: string[];
-  create(id: string, contents?: string): void;
-  read(id: string): void;
-  update(
-    contents: string,
-    isCompleted: boolean,
-    category: string,
-    tags?: string
-  ): void;
-  delete(id: string): void;
 }
 
-export class TodoComponent implements Component {
-  id: string;
-  contents: string;
-  isCompleted: boolean;
-  category: string;
-  tags?: string[];
-
-  create(id: string, contents?: string) {}
-  read(id: string) {}
+export interface TodoMaker {
+  create(id: string, contents?: string): void;
+  read(id: string): Todo | Todo[];
   update(
+    id: string,
     contents: string,
     isCompleted: boolean,
     category: string,
-    tags?: string
-  ) {}
-  delete(id: string) {}
+    tags?: string[]
+  ): Todo;
+  updateTag(
+    id: string,
+    tagFromSwap: string,
+    tagToSwap: string
+  ): string[] | undefined;
+  delete(id: string): Todo[];
+  deleteTag(id: string, tagToRemove?: string): string[] | undefined;
 }
